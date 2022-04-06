@@ -24,6 +24,35 @@ public class iFace {
 		return -1;
 	}
 	
+	public static void printaAmigos(ArrayList<String> amigos) {
+		System.out.print("Amigos:");
+		for(int i = 0; i < amigos.size(); i++) {
+			System.out.print(" || " + amigos.get(i));
+		}
+		System.out.print(" ||\n");
+	}
+	
+	public static void printaComun(ArrayList<Comunidade> comun, Conta conta) {
+		System.out.print("Comunidades:");
+		for (int i = 0; i < comun.size(); i++) {
+			if(comun.get(i).membros.equals(conta)) {
+				System.out.print(" || " + comun.get(i).nome);
+			}
+		}
+		System.out.print(" ||\n");
+	}
+	
+	public static void printaMsg(ArrayList<Mensagem> msg) {
+		System.out.print("Mensagens:");
+		for(int i = 0; i < msg.size(); i++) {
+			System.out.print(" || " + msg.get(i).remetente.login + ": ");
+			System.out.print(msg.get(i).msg);
+		}
+		System.out.print(" ||\n");
+	}
+	
+	
+	
 	public static void main(String[] args) {
 		String login1, login2, nome1, senha1, nomeComun;
 		Conta conta1, conta2;
@@ -35,7 +64,6 @@ public class iFace {
 		ArrayList<Comunidade> comun = new ArrayList<Comunidade>();
 		
 		while(true) {
-			System.out.println("Indique o que voce deseja fazer: ");
 			System.out.println("1- Criar conta");
 			System.out.println("2- Editar conta");
 			System.out.println("3- Adicionar amigo");
@@ -44,7 +72,10 @@ public class iFace {
 			System.out.println("6- Entrar para uma comunidade");
 			System.out.println("7- Ver status da minha conta");
 			System.out.println("8- Remover conta");
+			System.out.println("9- Enviar mensagem no Feed de Noticias");
+			System.out.println("10- Controlar privacidade do Feed de Noticias");
 			System.out.println("11- Sair");
+			System.out.println("Indique o que voce deseja fazer: ");
 			int n = inputInt.nextInt();
 		
 			if(n==1) {
@@ -101,7 +132,7 @@ public class iFace {
 								System.out.print("Voce aceita o convite de ");
 								login2 = conta1.convite.get(i);
 								System.out.print(login2);
-								System.out.print("? (S / N)");
+								System.out.println("? (S / N)");
 								String c1 = input.nextLine();
 								if(c1.equals("S")) {
 									conta1.amigos.add(login2);
@@ -109,13 +140,9 @@ public class iFace {
 									if(findConta(contas,login2)!=-1) {
 										conta2 = contas.get(findConta(contas, login2));
 										conta2.amigos.add(login1);
-										System.out.println(conta2.amigos);
-										System.out.println(conta2.convite);
 									}
 								}
 								conta1.convite.remove(i);
-								System.out.println(conta1.amigos);
-								System.out.println(conta1.convite);
 							}
 						}
 						System.out.println("Voce gostaria de adicionar um amigo? (S / N)");
@@ -225,7 +252,11 @@ public class iFace {
 					senha1 = input.nextLine();
 					conta1 = contas.get(indice);
 					if(conta1.Autenticador(senha1)) {
-						
+						System.out.println("Nome: " + conta1.nome);
+						System.out.println("Login: " + conta1.login);
+						printaAmigos(conta1.amigos);
+						printaComun(comun, conta1);
+						printaMsg(conta1.mensagens);
 					}
 				}
 				
@@ -238,6 +269,39 @@ public class iFace {
 				
 				if(indice != -1) {
 					contas.remove(indice);
+				}
+			}
+			
+			if(n==9) {
+				System.out.printf("Login: ");
+				login1 = input.nextLine();
+				indice = findConta(contas, login1);
+				if(indice != -1) {
+					System.out.printf("Senha: ");
+					senha1 = input.nextLine();
+					conta1 = contas.get(indice);
+					if(conta1.Autenticador(senha1)) {
+						System.out.println("Digite o que voce gostaria de postar no Feed de Noticias: ");
+						String msg = input.nextLine();
+						conta1.feed.add(msg);
+					}
+				}
+			}
+			
+			if(n==10) {
+				System.out.printf("Login: ");
+				login1 = input.nextLine();
+				indice = findConta(contas, login1);
+				if(indice != -1) {
+					System.out.printf("Senha: ");
+					senha1 = input.nextLine();
+					conta1 = contas.get(indice);
+					if(conta1.Autenticador(senha1)) {
+						System.out.println("Voce deseja que o seu Feed de Noticias seja: ");
+						System.out.println("0 - Privado (apenas amigos)");
+						System.out.println("1 - Aberto (todos)");
+						conta1.privFeed = inputInt.nextInt();
+					}
 				}
 			}
 			
