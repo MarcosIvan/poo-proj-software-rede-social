@@ -6,6 +6,7 @@ public class Comunidade {
 	ArrayList<Conta> membros;
 	ArrayList<Mensagem> mensagens;
 	
+	
 	Comunidade(String nome, String descricao, Conta dono){
 		this.nome = nome;
 		this.descricao = descricao;
