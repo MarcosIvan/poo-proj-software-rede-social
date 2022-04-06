@@ -20,7 +20,7 @@ public class iFace {
 				return i;
 			}
 		}
-		System.out.printf("Comunidade nao encontrada\n");
+		System.out.printf("Comunidade  nao  encontrada\n");
 		return -1;
 	}
 	
