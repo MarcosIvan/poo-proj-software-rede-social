@@ -35,8 +35,11 @@ public class iFace {
 	public static void printaComun(ArrayList<Comunidade> comun, Conta conta) {
 		System.out.print("Comunidades:");
 		for (int i = 0; i < comun.size(); i++) {
-			if(comun.get(i).membros.equals(conta)) {
-				System.out.print(" || " + comun.get(i).nome);
+			ArrayList<Conta> membros = comun.get(i).membros;
+			for (int j = 0; j<membros.size(); j++) {
+				if(membros.get(j).login.equals(conta.login)) {
+					System.out.print(" || " + comun.get(i).nome);
+				}
 			}
 		}
 		System.out.print(" ||\n");
@@ -81,15 +84,12 @@ public class iFace {
 			if(n==1) {
 				System.out.print("Login: ");
 				login1 = input.nextLine();
-				//input.nextLine();
 			
 				System.out.print("Nome: ");
 				nome1 = input.nextLine();
-				//input.nextLine();
 			
 				System.out.print("Senha: ");
 				senha1 = input.nextLine();
-				//input.nextLine();
 				
 				contas.add(new Conta(nome1, login1, senha1));
 			}
@@ -103,15 +103,12 @@ public class iFace {
 				if(indice != -1) {
 					System.out.printf("Novo login: ");
 					login1 = input.nextLine();
-					//input.nextLine();
 				
 					System.out.printf("Novo nome: ");
 					nome1 = input.nextLine();
-					//input.nextLine();
 				
 					System.out.printf("Nova senha: ");
 					senha1 = input.nextLine();
-					//input.nextLine();
 					
 					contas.set(indice, new Conta(nome1, login1, senha1));
 				}
@@ -179,7 +176,6 @@ public class iFace {
 								conta2 = contas.get(findConta(contas, login2));
 								System.out.println("Digite a mensagem que voce deseja enviar: ");
 								String msg = input.nextLine();
-								//input.nextLine();
 								conta2.mensagens.add(new Mensagem(msg, conta1));
 							}
 						}
@@ -193,7 +189,6 @@ public class iFace {
 								System.out.println("Digite a mensagem que voce deseja enviar: ");
 								String msg = input.nextLine();
 								System.out.println(msg);
-								//input.nextLine();
 								comun1.mensagens.add(new Mensagem(msg, conta1));
 							}
 						}
@@ -213,11 +208,11 @@ public class iFace {
 					if(conta1.Autenticador(senha1)) {
 						System.out.println("Digite o nome da comunidade: ");
 						String nomeCom = input.nextLine();
-						//input.nextLine();
 						System.out.println("Digite a descricao da comunidade: ");
 						String descricaoCom = input.nextLine();
-						//input.nextLine();
-						comun.add(new Comunidade(nomeCom, descricaoCom, conta1));
+						Comunidade comun3 = new Comunidade(nomeCom, descricaoCom, conta1);
+						comun3.membros.add(conta1);
+						comun.add(comun3);
 						
 					}
 				}
