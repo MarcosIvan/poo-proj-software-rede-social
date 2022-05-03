@@ -1,12 +1,10 @@
 import java.util.ArrayList;
 
-public class Conta{
+public class Conta extends Entidade{
 	String login;
-	String nome;
 	String senha;
 	ArrayList<String> convite;
 	ArrayList<String> amigos;
-	ArrayList<Mensagem> mensagens;
 	ArrayList<String> feed;
 	int privFeed;
 	

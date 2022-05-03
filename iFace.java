@@ -176,7 +176,7 @@ public class iFace {
 								conta2 = contas.get(findConta(contas, login2));
 								System.out.println("Digite a mensagem que voce deseja enviar: ");
 								String msg = input.nextLine();
-								conta2.mensagens.add(new Mensagem(msg, conta1));
+								conta2.receberMensagem(new Mensagem(msg, conta1));
 							}
 						}
 						else {
@@ -189,7 +189,7 @@ public class iFace {
 								System.out.println("Digite a mensagem que voce deseja enviar: ");
 								String msg = input.nextLine();
 								System.out.println(msg);
-								comun1.mensagens.add(new Mensagem(msg, conta1));
+								comun1.receberMensagem(new Mensagem(msg, conta1));
 							}
 						}
 						

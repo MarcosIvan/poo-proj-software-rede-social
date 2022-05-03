@@ -1,10 +1,9 @@
 import java.util.ArrayList;
 
-public class Comunidade {
-	String nome, descricao;
+public class Comunidade extends Entidade {
+	String descricao;
 	Conta dono;
 	ArrayList<Conta> membros;
-	ArrayList<Mensagem> mensagens;
 	
 	
 	Comunidade(String nome, String descricao, Conta dono){
