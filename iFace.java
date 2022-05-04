@@ -36,7 +36,10 @@ public class iFace {
 		System.out.print(" ||\n");
 	}
 	
-	
+	public static void sendMessage(Entidade e, String mensagem, Conta remetente) {
+		Mensagem m = new Mensagem(mensagem, remetente);
+		e.receberMensagem(m);
+	}
 	
 	public static void main(String[] args) {
 		String login1, login2, nome1, senha1, nomeComun;
@@ -155,31 +158,24 @@ public class iFace {
 					if(conta1.Autenticador(senha1)) {
 						System.out.println("Enviara mensagem para um usuario ou comunidade? (U / C)");
 						String c1 = input.nextLine();
+						Lista l;
+						String nomeEntidade;
+						
 						if(c1.equals("U")) {
 							System.out.println("Digite o login do destinatario: ");
-							login2 = input.nextLine();
-							conta2 = contas.find(login2);
-							
-							if(conta2 != null) {
-								System.out.println("Digite a mensagem que voce deseja enviar: ");
-								String msg = input.nextLine();
-								conta2.receberMensagem(new Mensagem(msg, conta1));
-							}
+							nomeEntidade = input.nextLine();
+							l = contas;
 						}
 						else {
 							//todos podem enviar msg para a comunidade
 							System.out.println("Digite o nome da comunidade: ");
-							nomeComun = input.nextLine();
-							System.out.println(nomeComun);
-							comunidadeAux = comunidades.find(nomeComun);
-							if(comunidadeAux!=null) {
-								System.out.println("Digite a mensagem que voce deseja enviar: ");
-								String msg = input.nextLine();
-								System.out.println(msg);
-								comunidadeAux.receberMensagem(new Mensagem(msg, conta1));
-							}
+							nomeEntidade = input.nextLine();
+							l = comunidades;
 						}
-						
+						System.out.println("Digite a mensagem que voce deseja enviar: ");
+						String msg = input.nextLine();
+						Entidade e = l.find(nomeEntidade);
+						sendMessage(e, msg, conta1);	
 					}
 				}
 			}
