@@ -67,23 +67,40 @@ public class iFace {
 			int n = inputInt.nextInt();
 		
 			if(n==1) {
+				
+				login1 = null;
+				nome1 = null;
+				senha1 = null;
+				conta1 = null;
+				
 				System.out.print("Login: ");
 				login1 = input.nextLine();
-			
+				
 				System.out.print("Nome: ");
 				nome1 = input.nextLine();
-			
+				
 				System.out.print("Senha: ");
 				senha1 = input.nextLine();
-				
-				contas.add(new Conta(nome1, login1, senha1));
+					
+				try {
+					conta1 = new Conta(nome1, login1, senha1);
+					
+					contas.add(conta1);
+				} catch(Exception e) {
+					System.out.print("Conta nula");
+				}
 			}
 		
 			if(n==2) {
 				//ajeitar para permitir adicionar atributos
 				System.out.printf("Qual login da conta que voce deseja editar: ");
 				login1 = input.nextLine();
-				conta1 = contas.find(login1);
+				conta1 = null;
+				try {
+					conta1 = contas.find(login1);
+				} catch(NullPointerException e) {
+					System.out.print("Conta nula");
+				}
 				
 				if(conta1 != null) {
 					System.out.printf("Novo login: ");
@@ -95,9 +112,13 @@ public class iFace {
 					System.out.printf("Nova senha: ");
 					senha1 = input.nextLine();
 					
-					conta1.nome = nome1;
-					conta1.login = login1;
-					conta1.senha = senha1;
+					try {
+						conta1.nome = nome1;
+						conta1.login = login1;
+						conta1.senha = senha1;
+					} catch(Exception e) {
+						System.out.print("Nao foi possivel editar a conta");
+					}
 				}
 			}
 			
@@ -245,11 +266,18 @@ public class iFace {
 			
 			if(n==8) {
 				System.out.printf("Qual login da conta que voce deseja remover: ");
-				login1 = input.nextLine();
+				login1 = null;
+				try {
+					login1 = input.nextLine();
+				} catch(Exception e) {
+					System.out.print("Login nulo");
+				}
 				conta1 = contas.find(login1);
 				
-				if(conta1 != null) {
+				try {
 					contas.remove(conta1);
+				} catch (Exception e) {
+					System.out.print("A conta não existe");
 				}
 			}
 			
