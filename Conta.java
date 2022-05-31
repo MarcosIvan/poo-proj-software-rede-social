@@ -8,7 +8,16 @@ public class Conta extends Entidade{
 	ArrayList<String> feed;
 	int privFeed;
 	
-	Conta(String nome, String login, String senha){
+	Conta(String nome, String login, String senha) throws IllegalArgumentException{
+        if(nome == null || nome.isBlank()) {
+        	throw new IllegalArgumentException("Nome nao pode ser vazio!");
+        }
+        if(login == null || login.isBlank()) {
+        	throw new IllegalArgumentException("Login nao pode ser vazio!");
+        }
+        if(senha == null || senha.isBlank()) {
+        	throw new IllegalArgumentException("Senha nao pode ser vazio!");
+        }
         this.nome =  nome;
         this.login = login;
         this.senha = senha;
@@ -20,8 +29,11 @@ public class Conta extends Entidade{
         this.feed = new ArrayList<String>();
 	}
 	
-	public boolean Autenticador(String senha) {
-		return this.senha.equals(senha);
+	
+	public void Autenticador(String senha) throws Exception {
+		if(!this.senha.equals(senha)) {
+			throw new Exception("Senha invalida");
+		}
 	}
 	
 }
