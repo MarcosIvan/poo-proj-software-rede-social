@@ -1,4 +1,11 @@
 # poo-proj-software-rede-social
 Código da disciplina Projeto de Software (Programação Orientada a Objeto)
 
-Implementei a questão 1 e comecei a implementar as questões 2 e 8, mas não conseguir acertar o uso do indexOf(), creio que o restante esteja correto.
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CODE SMELLS IDENTIFICADOS:
+1) Long Method - main()
+O método main() foi identificado como long method por possuir muitos if's em sequência, em decorrência do menu funcionar recebendo um valor inteiro para cada diferente opção, e assim, cada if seria uma opção selecionada diferente.
+
+2) Duplicated Code - main()
+Na maioria dos if's há código duplicado para realizar o login e sua devida autenticação.
