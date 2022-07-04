@@ -6,6 +6,27 @@ import java.util.List;
 
 public class iFace {
 	
+	public static Conta fazerLogin(Lista<Conta> contas) {
+		String login, senha;
+		Conta conta;
+		Scanner input = new Scanner(System.in);
+		System.out.printf("Login: ");
+		login = input.nextLine();
+		conta = contas.find(login);
+		
+		if(conta != null) {
+			System.out.printf("Senha: ");
+			senha = input.nextLine();
+			try {
+				conta.Autenticador(senha);
+			}catch (Exception e) {
+				System.out.print("Erro ao fazer login!\n");
+				return null;
+			}
+		}
+		return conta;
+	}
+	
 	public static void printaAmigos(ArrayList<String> amigos) {
 		System.out.print("Amigos:");
 		for(int i = 0; i < amigos.size(); i++) {
@@ -92,11 +113,9 @@ public class iFace {
 			}
 		
 			if(n==2) {
-				System.out.printf("Qual login da conta que voce deseja editar: ");
-				login1 = input.nextLine();
-				conta1 = null;
+				System.out.printf("Qual login da conta que voce deseja editar: " + "\n");
 				try {
-					conta1 = contas.find(login1);
+					conta1 = fazerLogin(contas);
 					if(conta1 != null) {
 						System.out.printf("Novo login: ");
 						login1 = input.nextLine();
@@ -122,16 +141,9 @@ public class iFace {
 			}
 			
 			if(n==3) {
-				System.out.printf("Login: ");
-				login1 = input.nextLine();
-				conta1 = contas.find(login1);
-				
-				if(conta1 != null) {
-					System.out.printf("Senha: ");
-					senha1 = input.nextLine();
-
-					try {
-						conta1.Autenticador(senha1);
+				try {
+					conta1 = fazerLogin(contas);
+					if (conta1 != null) {
 						if(conta1.convite.size()>0) {
 							System.out.println("Voce possui os seguintes convites de amizade: ");
 							for (int i = 0; i < conta1.convite.size(); i++) {
@@ -144,7 +156,7 @@ public class iFace {
 									conta1.amigos.add(login2);
 									try {
 										conta2 = contas.find(login2);
-										conta2.amigos.add(login1);
+										conta2.amigos.add(conta1.login);
 									}catch(Exception e) {
 										System.out.print("Erro ao buscar conta!\n");
 									}
@@ -160,28 +172,22 @@ public class iFace {
 							login2 = input.nextLine();
 							try {
 								conta2 = contas.find(login2);
-								conta2.convite.add(login1);
+								conta2.convite.add(conta1.login);
 								System.out.println(conta2.convite);
-							}catch(Exception e) {
-								System.out.print("Erro ao buscar conta!\n");
+								}catch(Exception e) {
+									System.out.print("Erro ao buscar conta!\n");
+								}
 							}
-						}
-					}catch(Exception e) {
-						System.out.print("Erro ao adicionar amigo: " + e.getMessage() + "\n");
 					}
+				}catch(Exception e) {
+					System.out.print("Erro ao adicionar amigo: " + e.getMessage() + "\n");
 				}
-				
 			}
+				
 			if(n==4) {
-				System.out.printf("Login: ");
-				login1 = input.nextLine();
 				try {
-					conta1 = contas.find(login1);
-					System.out.printf("Senha: ");
-					senha1 = input.nextLine();
-					
-					try {
-						conta1.Autenticador(senha1);
+					conta1 = fazerLogin(contas);
+					if (conta1 != null) {
 						System.out.println("Enviara mensagem para um usuario ou comunidade? (U / C)");
 						String c1 = input.nextLine();
 						Lista<? extends Entidade> l;
@@ -205,31 +211,19 @@ public class iFace {
 							Entidade e = l.find(nomeEntidade);
 							sendMessage(e, msg, conta1);	
 						}catch(Exception e) {
-							System.out.print("Erro ao buscar conta!\n");
-						}
-						
-						
-						//tratar sendMessage()
-					}catch(Exception e) {
-						System.out.print("Erro ao enviar mensagem: " + e.getMessage() + "\n");
+								System.out.print("Erro ao buscar conta!\n");
+						}	
 					}
+						//tratar sendMessage()
 				}catch(Exception e) {
-					System.out.print("Erro ao buscar conta!\n");
+					System.out.print("Erro ao enviar mensagem: " + e.getMessage() + "\n");
 				}
-				
 			}
 			
 			if(n==5) {
-				System.out.printf("Login: ");
-				login1 = input.nextLine();
-				conta1 = contas.find(login1);
-				
-				if(conta1 != null) {
-					System.out.printf("Senha: ");
-					senha1 = input.nextLine();
-
-					try {
-						conta1.Autenticador(senha1);
+				try {
+					conta1 = fazerLogin(contas);
+					if (conta1 != null) {
 						System.out.println("Digite o nome da comunidade: ");
 						String nomeCom = input.nextLine();
 						System.out.println("Digite a descricao da comunidade: ");
@@ -237,75 +231,47 @@ public class iFace {
 						Comunidade comun3 = new Comunidade(nomeCom, descricaoCom, conta1);
 						comun3.membros.add(conta1);
 						comunidades.add(comun3);
-						
-					}catch(Exception e) {
-						System.out.print("Erro ao criar comunidade: " + e.getMessage() + "\n");
 					}
+				}catch(Exception e) {
+					System.out.print("Erro ao criar comunidade: " + e.getMessage() + "\n");
 				}
 			}
 			
 			if(n==6) {
-				System.out.printf("Login: ");
-				login1 = input.nextLine();
 				try {
-					conta1 = contas.find(login1);
-					if(conta1 != null) {
-						System.out.printf("Senha: ");
-						senha1 = input.nextLine();
-						
-						try {
-							conta1.Autenticador(senha1);
-							System.out.println("Digite o nome da comunidade"
-									+ " que voce deseja entrar: ");
-							nomeComun = input.nextLine();
-							comunidadeAux = comunidades.find(nomeComun);
-							if(comunidadeAux != null) {
-								comunidadeAux.membros.add(conta1);
-							}
-						}catch(Exception e) {
-							System.out.print("Erro ao entrar em comunidade: " + e.getMessage() + "\n");
+					conta1 = fazerLogin(contas);
+					if (conta1 != null) {
+						System.out.println("Digite o nome da comunidade"
+										+ " que voce deseja entrar: ");
+						nomeComun = input.nextLine();
+						comunidadeAux = comunidades.find(nomeComun);
+						if(comunidadeAux != null) {
+							comunidadeAux.membros.add(conta1);
 						}
 					}
 				}catch(Exception e) {
-					System.out.print("Erro ao buscar conta!\n");
+					System.out.print("Erro ao entrar em comunidade: " + e.getMessage() + "\n");
 				}
-				
-				
 			}
-			
-			if(n==7) {
-				System.out.printf("Login: ");
-				login1 = input.nextLine();
-				try {
-					conta1 = contas.find(login1);
-					if(conta1 != null) {
-						System.out.printf("Senha: ");
-						senha1 = input.nextLine();
 
-						try {
-							conta1.Autenticador(senha1);
-							System.out.println("Nome: " + conta1.nome);
-							System.out.println("Login: " + conta1.login);
-							printaAmigos(conta1.amigos);
-							printaComun(comunidades, conta1);
-							printaMsg(conta1.mensagens);
-						}catch(Exception e) {
-							System.out.print("Erro ao consultar conta: " + e.getMessage() + "\n");
-						}
+			if(n==7) {
+				try {
+					conta1 = fazerLogin(contas);
+					if (conta1 != null) {
+						System.out.println("Nome: " + conta1.nome);
+						System.out.println("Login: " + conta1.login);
+						printaAmigos(conta1.amigos);
+						printaComun(comunidades, conta1);
+						printaMsg(conta1.mensagens);
 					}
-					
 				}catch(Exception e) {
-					System.out.print("Erro ao buscar conta!\n");
+					System.out.print("Erro ao consultar conta: " + e.getMessage() + "\n");
 				}
-				
-				
 			}
 			
 			if(n==8) {
-				System.out.printf("Qual login da conta que voce deseja remover: ");
-				login1 = input.nextLine();
 				try {
-					conta1 = contas.find(login1);
+					conta1 = fazerLogin(contas);
 					contas.remove(conta1);
 				}catch(Exception e) {
 					System.out.print("Erro ao buscar conta!\n");
@@ -313,54 +279,30 @@ public class iFace {
 			}
 			
 			if(n==9) {
-				System.out.printf("Login: ");
-				login1 = input.nextLine();
 				try {
-					conta1 = contas.find(login1);
-					if(conta1 != null) {
-						System.out.printf("Senha: ");
-						senha1 = input.nextLine();
-
-						try {
-							conta1.Autenticador(senha1);
-							System.out.println("Digite o que voce gostaria de postar no Feed de Noticias: ");
-							String msg = input.nextLine();
-							conta1.feed.add(msg);
-						}catch(Exception e) {
-							System.out.print("Erro ao postar no Feed: " + e.getMessage() + "\n");
-						}
+					conta1 = fazerLogin(contas);
+					System.out.println("Digite o que voce gostaria de postar no Feed de Noticias: ");
+					String msg = input.nextLine();
+					if (conta1 != null) {
+						conta1.feed.add(msg);
 					}
 				}catch(Exception e) {
-					System.out.print("Erro ao buscar conta!\n");
+					System.out.print("Erro ao postar no Feed: " + e.getMessage() + "\n");
 				}
-				
-				
 			}
 			
 			if(n==10) {
-				System.out.printf("Login: ");
-				login1 = input.nextLine();
 				try {
-					conta1 = contas.find(login1);
+					conta1 = fazerLogin(contas);
 					if(conta1 != null) {
-						System.out.printf("Senha: ");
-						senha1 = input.nextLine();
-
-						try {
-							conta1.Autenticador(senha1);
-							System.out.println("Voce deseja que o seu Feed de Noticias seja: ");
-							System.out.println("0 - Privado (apenas amigos)");
-							System.out.println("1 - Aberto (todos)");
-							conta1.privFeed = inputInt.nextInt();
-						}catch(Exception e) {
-							System.out.print("Erro ao alterar privacidade: " + e.getMessage() + "\n");
-						}
+						System.out.println("Voce deseja que o seu Feed de Noticias seja: ");
+						System.out.println("0 - Privado (apenas amigos)");
+						System.out.println("1 - Aberto (todos)");
+						conta1.privFeed = inputInt.nextInt();
 					}
 				}catch(Exception e) {
-					System.out.print("Erro ao buscar conta!\n");
+					System.out.print("Erro ao alterar privacidade: " + e.getMessage() + "\n");
 				}
-				
-				
 			}
 			
 			if(n==11) {
