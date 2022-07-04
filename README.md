@@ -9,3 +9,4 @@ O método main() foi identificado como long method por possuir muitos if's em se
 
 2) Duplicated Code - main()
 Na maioria dos if's há código duplicado para realizar o login e sua devida autenticação.
+Resolvido com a criação do método Autenticador() na classe Conta.
