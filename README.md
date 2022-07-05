@@ -10,3 +10,6 @@ O método main() foi identificado como long method por possuir muitos if's em se
 2) Duplicated Code - main()
 Na maioria dos if's há código duplicado para realizar o login e sua devida autenticação.
 Resolvido com a criação do método Autenticador() na classe Conta.
+
+3) Duplicated Code e Long Method - Autenticador() e fazerLogin()
+Antes da correção 2, foi a autenticação era feita junto com o login e se repetia por vários trechos do código, sendo feito um método Autenticador() na classe Conta, isso também fez com que futuramente viesse a ser evitado que o método fazerLogin() na classe iFace viesse a ser um long method.
